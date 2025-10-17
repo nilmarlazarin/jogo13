@@ -115,3 +115,154 @@ function restartGame() {
     document.getElementById("start-screen").style.display = "block";
     document.getElementById("player-name").value = "";
 }
+const questions = [
+    // Matemática
+    {
+        question: "Quanto é 5 + 3?",
+        options: ["5", "8", "10", "7"],
+        answer: 1
+    },
+    {
+        question: "Quanto é 12 ÷ 4?",
+        options: ["4", "3", "2", "6"],
+        answer: 1
+    },
+    {
+        question: "Quanto é 6 × 7?",
+        options: ["42", "48", "40", "36"],
+        answer: 0
+    },
+    {
+        question: "Quanto é 15 - 7?",
+        options: ["10", "9", "7", "8"],
+        answer: 1
+    },
+    {
+        question: "Quanto é 8 × 8?",
+        options: ["64", "70", "80", "72"],
+        answer: 0
+    },
+
+    // Português
+    {
+        question: "Qual a forma correta da palavra?",
+        options: ["Aguá", "Água", "Agua", "Aguaá"],
+        answer: 1
+    },
+    {
+        question: "Qual o sinônimo de 'feliz'?",
+        options: ["Triste", "Contente", "Raivoso", "Aborrecido"],
+        answer: 1
+    },
+    {
+        question: "Como se chama o sinal de pontuação '?'",
+        options: ["Ponto de exclamação", "Ponto final", "Interrogação", "Vírgula"],
+        answer: 2
+    },
+    {
+        question: "Qual destas palavras está no plural?",
+        options: ["Cachorro", "Casa", "Livros", "Carro"],
+        answer: 2
+    },
+    {
+        question: "Qual a forma correta de escrever?",
+        options: ["Muitto", "Muitíssimo", "Muitos", "Muito"],
+        answer: 3
+    }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+let playerName = "";
+
+function startGame() {
+    playerName = document.getElementById("player-name").value;
+    if (!playerName) {
+        alert("Por favor, digite seu nome!");
+        return;
+    }
+
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("quiz-screen").style.display = "block";
+    showQuestion();
+}
+
+function showQuestion() {
+    const question = questions[currentQuestionIndex];
+    document.getElementById("question").innerText = question.question;
+
+    const answerButtons = document.querySelectorAll(".answer-button");
+    question.options.forEach((option, index) => {
+        answerButtons[index].innerText = option;
+    });
+    document.getElementById("feedback").innerText = "";
+}
+
+function checkAnswer(selectedOption) {
+    const question = questions[currentQuestionIndex];
+    const correctAnswer = question.answer;
+
+    if (selectedOption === correctAnswer) {
+        score++;
+        document.getElementById("feedback").innerText = "Correto!";
+        document.getElementById("feedback").style.color = "green";
+        generateMeteor(true);  // Meteoros caindo em caso de acerto
+    } else {
+        document.getElementById("feedback").innerText = "Errado!";
+        document.getElementById("feedback").style.color = "red";
+        generateMeteor(false); // Meteoros caindo em caso de erro
+    }
+
+    currentQuestionIndex++;
+    if (currentQuestionIndex < questions.length) {
+        setTimeout(() => showQuestion(), 1000);
+    } else {
+        setTimeout(endGame, 1000);
+    }
+}
+
+function generateMeteor(isCorrect) {
+    const meteor = document.createElement("div");
+    meteor.classList.add("meteor");
+    meteor.style.backgroundColor = isCorrect ? "green" : "red"; // Meteoros verdes para acerto, vermelhos para erro
+
+    const randomPositionX = Math.floor(Math.random() * window.innerWidth);
+    meteor.style.left = `${randomPositionX}px`;
+
+    document.getElementById("meteor-container").appendChild(meteor);
+
+    // Remover meteoros após animação
+    setTimeout(() => {
+        meteor.remove();
+    }, 2000);  // Tempo que o meteorito leva para cair
+}
+
+function endGame() {
+    document.getElementById("quiz-screen").style.display = "none";
+    document.getElementById("end-screen").style.display = "block";
+    document.getElementById("final-score").innerText = score;
+
+    updateLeaderboard();
+}
+
+function updateLeaderboard() {
+    // Recuperando o leaderboard do localStorage
+    let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+
+    // Adicionando o jogador atual ao leaderboard
+    leaderboard.push({ name: playerName, score: score });
+
+    // Ordenando o leaderboard em ordem decrescente de pontuação
+    leaderboard.sort((a, b) => b.score - a.score);
+
+    // Salvando novamente no localStorage
+    localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+    // Exibindo o leaderboard
+    const leaderboardTable = document.getElementById("scoreboard");
+    leaderboardTable.innerHTML = "<tr><th>Nome</th><th>Pontuação</th></tr>";
+
+    leaderboard.forEach(entry => {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td>${entry.name}</td><td>${entry.score}</td>`;
+        leaderboardTable.appendChild(row);
