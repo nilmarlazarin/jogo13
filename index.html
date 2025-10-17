@@ -74,3 +74,49 @@
     <script src="script.js"></script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Matemática e Português</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="start-screen">
+        <h1>Bem-vindo ao Quiz!</h1>
+        <input type="text" id="player-name" placeholder="Digite seu nome" />
+        <button onclick="startGame()">Iniciar Jogo</button>
+    </div>
+
+    <div id="quiz-screen" style="display:none;">
+        <h2 id="question"></h2>
+        <div id="answers">
+            <button class="answer-button" onclick="checkAnswer(0)"></button>
+            <button class="answer-button" onclick="checkAnswer(1)"></button>
+            <button class="answer-button" onclick="checkAnswer(2)"></button>
+            <button class="answer-button" onclick="checkAnswer(3)"></button>
+        </div>
+        <div id="feedback"></div>
+    </div>
+
+    <div id="end-screen" style="display:none;">
+        <h2>Fim de Jogo!</h2>
+        <p>Pontuação: <span id="final-score"></span></p>
+        <h3>Tabela de Classificação</h3>
+        <table id="scoreboard">
+            <tr><th>Nome</th><th>Pontuação</th></tr>
+        </table>
+        <button onclick="restartGame()">Reiniciar</button>
+    </div>
+
+    <!-- Container para a animação da Princesa Sofia -->
+    <div id="sofia-animation" style="display:none;">
+        <img src="sofia.png" alt="Princesa Sofia" id="sofia" />
+    </div>
+
+    <div id="meteor-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

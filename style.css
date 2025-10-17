@@ -95,3 +95,99 @@ body {
     border: 1px solid #ddd;
     text-align: center;
 }
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#start-screen {
+    margin-top: 50px;
+}
+
+#quiz-screen {
+    margin-top: 20px;
+}
+
+.answer-button {
+    margin: 10px;
+    padding: 15px;
+    width: 200px;
+    font-size: 18px;
+}
+
+#feedback {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+#end-screen {
+    margin-top: 20px;
+}
+
+/* Animação da Princesa Sofia */
+#sofia {
+    width: 150px;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: moveSofia 3s infinite;
+}
+
+@keyframes moveSofia {
+    0% {
+        top: 10%;
+        opacity: 0;
+    }
+    50% {
+        top: 20%;
+        opacity: 1;
+    }
+    100% {
+        top: 10%;
+        opacity: 0;
+    }
+}
+
+/* Meteoros */
+.meteor {
+    position: absolute;
+    top: -100px;
+    width: 50px;
+    height: 50px;
+    background-image: url('https://example.com/meteor.png');  /* Altere para sua imagem de meteoro */
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation: fall 2s linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+#meteor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+#scoreboard {
+    margin: 20px auto;
+    width: 80%;
+    border-collapse: collapse;
+}
+
+#scoreboard th, #scoreboard td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
